@@ -7,11 +7,8 @@ type Props = {
   todosActiveQuantity: number;
 };
 
-const filterTitles: Record<FilterStatus, string> = {
-  [FilterStatus.All]: 'All',
-  [FilterStatus.Active]: 'Active',
-  [FilterStatus.Completed]: 'Completed',
-};
+const capitalize = (word: string) =>
+  word.charAt(0).toUpperCase() + word.slice(1);
 
 export const Footer: React.FC<Props> = ({
   setFilterStatus,
@@ -32,10 +29,10 @@ export const Footer: React.FC<Props> = ({
             className={classNames('filter__link', {
               selected: filterStatus === status,
             })}
-            data-cy={`FilterLink${filterTitles[status]}`}
+            data-cy={`FilterLink${capitalize(status)}`}
             onClick={() => setFilterStatus(status)}
           >
-            {filterTitles[status]}
+            {capitalize(status)}
           </a>
         ))}
       </nav>
