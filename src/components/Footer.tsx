@@ -7,6 +7,12 @@ type Props = {
   todosActiveQuantity: number;
 };
 
+const filterTitles: Record<FilterStatus, string> = {
+  [FilterStatus.All]: 'All',
+  [FilterStatus.Active]: 'Active',
+  [FilterStatus.Completed]: 'Completed',
+};
+
 export const Footer: React.FC<Props> = ({
   setFilterStatus,
   filterStatus,
@@ -18,44 +24,22 @@ export const Footer: React.FC<Props> = ({
         {todosActiveQuantity} items left
       </span>
 
-      {/* Active link should have the 'selected' class */}
       <nav className="filter" data-cy="Filter">
-        <a
-          href="#/"
-          // className="filter__link selected"
-          className={classNames('filter__link', {
-            selected: filterStatus === 'all',
-          })}
-          data-cy="FilterLinkAll"
-          onClick={() => setFilterStatus('all')}
-        >
-          All
-        </a>
-
-        <a
-          href="#/active"
-          className={classNames('filter__link', {
-            selected: filterStatus === 'active',
-          })}
-          data-cy="FilterLinkActive"
-          onClick={() => setFilterStatus('active')}
-        >
-          Active
-        </a>
-
-        <a
-          href="#/completed"
-          className={classNames('filter__link', {
-            selected: filterStatus === 'completed',
-          })}
-          data-cy="FilterLinkCompleted"
-          onClick={() => setFilterStatus('completed')}
-        >
-          Completed
-        </a>
+        {Object.values(FilterStatus).map(status => (
+          <a
+            key={status}
+            href={`#/${status === FilterStatus.All ? '' : status}`}
+            className={classNames('filter__link', {
+              selected: filterStatus === status,
+            })}
+            data-cy={`FilterLink${filterTitles[status]}`}
+            onClick={() => setFilterStatus(status)}
+          >
+            {filterTitles[status]}
+          </a>
+        ))}
       </nav>
 
-      {/* this button should be disabled if there are no completed todos */}
       <button
         type="button"
         className="todoapp__clear-completed"

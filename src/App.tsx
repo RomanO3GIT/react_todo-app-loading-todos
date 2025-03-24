@@ -13,7 +13,9 @@ import { FilterStatus } from './types/FilterStatus';
 export const App: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [errorMessage, setErrorMessage] = useState('');
-  const [filterStatus, setFilterStatus] = useState<FilterStatus>('all');
+  const [filterStatus, setFilterStatus] = useState<FilterStatus>(
+    FilterStatus.All,
+  );
 
   useEffect(() => {
     getTodos()
@@ -25,11 +27,11 @@ export const App: React.FC = () => {
   }, []);
 
   const filteredTodos = useMemo((): Todo[] => {
-    if (filterStatus === 'all') {
+    if (filterStatus === FilterStatus.All) {
       return todos;
     }
 
-    if (filterStatus === 'active') {
+    if (filterStatus === FilterStatus.Active) {
       return todos.filter(todo => !todo.completed);
     }
 
